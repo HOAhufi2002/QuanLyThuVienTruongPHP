@@ -2,11 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Kiểm tra nếu chưa đăng nhập thì chuyển hướng về trang login
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+
 ?>
 <!doctype html>
 <html lang="en">

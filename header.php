@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 // Kiểm tra nếu chưa đăng nhập thì chuyển hướng về trang login
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: home.php");
     exit;
 }
 ?>

@@ -3,7 +3,7 @@ session_start(); // Bắt đầu session
 
 // Kiểm tra nếu người dùng không phải là admin thì chuyển hướng về trang đăng nhập
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: home.php");
     exit;
 }
 

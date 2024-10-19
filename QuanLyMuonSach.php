@@ -4,7 +4,7 @@ include 'config.php'; // Kết nối cơ sở dữ liệu
 
 // Kiểm tra xem người dùng có phải là admin không
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php"); // Chuyển hướng tới trang đăng nhập nếu không phải admin
+    header("Location: home.php"); // Chuyển hướng tới trang đăng nhập nếu không phải admin
     exit;
 }
 
