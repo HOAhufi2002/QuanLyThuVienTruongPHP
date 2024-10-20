@@ -4,34 +4,63 @@ include 'config.php'; // Kết nối đến cơ sở dữ liệu
 
 // Xử lý khi người dùng gửi form đăng nhập
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if (isset($_POST['login'])) {
+        // Đăng nhập
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    // Truy vấn cơ sở dữ liệu để kiểm tra tài khoản và mật khẩu
-    $stmt = $pdo->prepare("SELECT * FROM NguoiDung WHERE TenDangNhap = :username AND MatKhau = :password");
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', $password);
-    $stmt->execute();
-    $user = $stmt->fetch();
+        // Truy vấn cơ sở dữ liệu để kiểm tra tài khoản và mật khẩu
+        $stmt = $pdo->prepare("SELECT * FROM NguoiDung WHERE TenDangNhap = :username AND MatKhau = :password");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+        $user = $stmt->fetch();
 
-    // Kiểm tra tài khoản và mật khẩu
-    if ($user) {
-        $_SESSION['user_id'] = $user['MaNguoiDung'];  // Lưu ID người dùng vào session
-        $_SESSION['username'] = $user['TenDangNhap']; // Lưu tên đăng nhập vào session
-        $_SESSION['role'] = $user['VaiTro'];          // Lưu vai trò vào session
+        // Kiểm tra tài khoản và mật khẩu
+        if ($user) {
+            $_SESSION['user_id'] = $user['MaNguoiDung'];  // Lưu ID người dùng vào session
+            $_SESSION['username'] = $user['TenDangNhap']; // Lưu tên đăng nhập vào session
+            $_SESSION['role'] = $user['VaiTro'];          // Lưu vai trò vào session
 
-        // Chuyển hướng người dùng dựa trên vai trò
-        if ($user['VaiTro'] == 'admin') {
-            header("Location: home.php"); // Chuyển hướng tới trang quản trị
+            // Chuyển hướng người dùng dựa trên vai trò
+            if ($user['VaiTro'] == 'admin') {
+                header("Location: home.php"); // Chuyển hướng tới trang quản trị
+            } else {
+                header("Location: home.php"); // Chuyển hướng tới trang chính
+            }
+            exit;
         } else {
-            header("Location: home.php"); // Chuyển hướng tới trang chính
+            $error = "Tên đăng nhập hoặc mật khẩu không đúng!";
         }
-        exit;
-    } else {
-        $error = "Tên đăng nhập hoặc mật khẩu không đúng!";
+    } elseif (isset($_POST['register'])) {
+        // Đăng ký
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
+        $hoTen = $_POST['hoTen'];
+        $soDienThoai = $_POST['soDienThoai'];
+
+        // Kiểm tra nếu tên đăng nhập đã tồn tại
+        $stmt = $pdo->prepare("SELECT * FROM NguoiDung WHERE TenDangNhap = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $existingUser = $stmt->fetch();
+
+        if ($existingUser) {
+            $error = "Tên đăng nhập đã tồn tại!";
+        } else {
+            // Thêm người dùng mới vào cơ sở dữ liệu
+            $stmt = $pdo->prepare("INSERT INTO NguoiDung (TenDangNhap, MatKhau, HoTen, Email, SoDienThoai, VaiTro, NgayTao) 
+                                    VALUES (?, ?, ?, ?, ?, 'nguoidung', GETDATE())");
+            $stmt->execute([$username, $password, $hoTen, $email, $soDienThoai]);
+
+            $success = "Đăng ký thành công! Bạn có thể đăng nhập ngay.";
+        }
     }
 }
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -134,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="login.php" method="POST">
                     <input type="text" class="form-control" id="username" name="username" placeholder="Tên Đăng Nhập" required>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Mật Khẩu" required>
-                    <button type="submit">Đăng Nhập</button>
+                    <button type="submit" name="login">Đăng Nhập</button>
                 </form>
                 <p onclick="toggleForm()">Chuyển sang Đăng Ký</p>
             </div>
@@ -142,11 +171,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Form Đăng Ký -->
             <div class="form-container form-back">
                 <h2>Đăng Ký</h2>
-                <form action="register.php" method="POST">
+                <form action="login.php" method="POST">
                     <input type="text" class="form-control" id="reg-username" name="username" placeholder="Tên Đăng Nhập" required>
+                    <input type="text" class="form-control" id="reg-hoTen" name="hoTen" placeholder="Họ Tên" required>
+                    <input type="text" class="form-control" id="reg-soDienThoai" name="soDienThoai" placeholder="Số Điện Thoại" required>
                     <input type="email" class="form-control" id="reg-email" name="email" placeholder="Email" required>
                     <input type="password" class="form-control" id="reg-password" name="password" placeholder="Mật Khẩu" required>
-                    <button type="submit">Đăng Ký</button>
+                    <button type="submit" name="register">Đăng Ký</button>
                 </form>
                 <p class="hover" onclick="toggleForm()">Chuyển sang Đăng Nhập</p>
             </div>

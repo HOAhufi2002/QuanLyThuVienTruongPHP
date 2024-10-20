@@ -39,13 +39,13 @@
                  
                     echo '
                     <div class="col-md-3 mb-3">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 18rem; height: 100%; ">
                         
                             <img src="' . $imagePath . '" class="card-img-top" alt="' . $row['TenSach'] . '">
                             <div class="card-body">
                                 <h5 class="card-title">' . $row['TenSach'] . '</h5>
                                 <p class="card-text">Tác giả: ' . $row['TacGia'] . '</p>
-                                <p class="card-text">' . substr($row['MoTa'], 0, 100) . '...</p>
+                                <p class="card-text">' . substr($row['MoTa'], 0, length:10) . '...</p>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="loadBookDetail(' . $row['MaSach'] . ')">Chi Tiết</button>
                             </div>
                         </div>

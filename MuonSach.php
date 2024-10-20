@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $book = $stmt->fetch();
 
     // Kiểm tra sách có sẵn không
-    if ($book && $book['TinhTrang'] == 'con') {
+    if ($book && $book['SoLuong'] > 0) {
         // Cập nhật thông tin mượn sách vào bảng MuonSach với trạng thái chờ duyệt
         $stmt = $pdo->prepare("INSERT INTO MuonSach (MaNguoiDung, MaSach, NgayMuon, SoLuong, TrangThaiDuyet) 
                                VALUES (:user_id, :book_id, :borrow_date, 1, 'choduyet')");
@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include 'header.php'; ?>
 
 <div class="container mt-5">
-    <h2 class="text-center mb-5">Danh Sách Sách</h2>
 
     <!-- Hiển thị thông báo thành công hoặc lỗi -->
     <?php if (!empty($success)) : ?>
@@ -65,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $imagePath = !empty($book['HinhAnh']) ? $book['HinhAnh'] : '/images/default_book.jpg';
             ?>
             <!-- Thiết kế thẻ card Bootstrap cho mỗi sách -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
+            <div class="col-md-3 mb-3">
+            <div class="card h-100">
                     <img src="<?php echo $imagePath; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($book['TenSach']); ?>" style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($book['TenSach']); ?></h5>

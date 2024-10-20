@@ -24,7 +24,6 @@ $stmt = $pdo->prepare("SELECT * FROM Sach WHERE TenSach LIKE ? AND IsDel = 1");
 $stmt->execute(['%' . $searchTerm . '%']);
 $sachList = $stmt->fetchAll();
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Xử lý thêm sách
     if (isset($_POST['add'])) {
@@ -118,111 +117,112 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php include 'header.php'; ?>
 
 <div class="container mt-5">
-    <h2 class="text-center">Quản Lý Sách</h2>
+    <h2 class="text-center mb-4">Quản Lý Sách</h2>
 
     <!-- Form tìm kiếm sách -->
-    <form method="POST" class="mb-4">
+    <form style="  border-radius: 50px;" method="POST"  class="col-md-6 offset-md-6 text-end">
         <div class="input-group">
             <input type="text" name="search_term" class="form-control" placeholder="Nhập tên sách cần tìm..." value="<?php echo htmlspecialchars($searchTerm); ?>">
-            <button class="btn btn-primary" type="submit" name="search">Tìm kiếm</button>
+            <button style="  border-radius: 50px;" class="btn btn-primary" type="submit" name="search">Tìm kiếm</button>
         </div>
     </form>
-    <div class="table-responsive">
-    <table class="table table-hover table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Mã Sách</th>
-                <th>Tên Sách</th>
-                <th>Tác Giả</th>
-                <th>Thể Loại</th>
-                <th>Năm Xuất Bản</th>
-                <th>Số Lượng</th>
-                <th>Hình Ảnh</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($sachList as $sach): ?>
-                <tr>
-                    <td><?php echo $sach['MaSach']; ?></td>
-                    <td><?php echo $sach['TenSach']; ?></td>
-                    <td><?php echo $sach['TacGia']; ?></td>
-                    <td><?php echo $sach['MaLoai']; ?></td>
-                    <td><?php echo $sach['NamXuatBan']; ?></td>
-                    <td><?php echo $sach['SoLuong']; ?></td>
-                    <td>
-                        <!-- Xử lý đường dẫn ảnh -->
-                        <?php
-                        $imagePath = !empty($sach['HinhAnh']) ? $sach['HinhAnh'] : '/TruongHoc/images/default_book.jpg';
-                        ?>
-                        <img src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($sach['TenSach']); ?>" class="img-thumbnail" style="width: 100px; height: auto;">
-                    </td>
-                    <td>
-                        <form method="POST" class="d-inline">
-                            <input type="hidden" name="MaSach" value="<?php echo $sach['MaSach']; ?>">
-                            <button type="submit" class="btn btn-danger btn-sm" name="delete">Xóa</button>
-                        </form>
-                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $sach['MaSach']; ?>">Sửa</button>
-                    </td>
-                </tr>
 
-                <!-- Modal Sửa Sách -->
-                <div class="modal fade" id="editModal<?php echo $sach['MaSach']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Sửa Thông Tin Sách</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="MaSach" value="<?php echo $sach['MaSach']; ?>">
-                                    <input type="hidden" name="HinhAnhHienTai" value="<?php echo $sach['HinhAnh']; ?>">
-                                    <div class="mb-3">
-                                        <label for="TenSach" class="form-label">Tên Sách</label>
-                                        <input type="text" class="form-control" name="TenSach" value="<?php echo $sach['TenSach']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="TacGia" class="form-label">Tác Giả</label>
-                                        <input type="text" class="form-control" name="TacGia" value="<?php echo $sach['TacGia']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="MaLoai" class="form-label">Thể Loại</label>
-                                        <select class="form-select" name="MaLoai" required>
-                                            <?php foreach ($loaiSachList as $loai): ?>
-                                                <option value="<?php echo $loai['MaLoai']; ?>" <?php echo $loai['MaLoai'] == $sach['MaLoai'] ? 'selected' : ''; ?>>
-                                                    <?php echo $loai['TenLoai']; ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="NamXuatBan" class="form-label">Năm Xuất Bản</label>
-                                        <input type="number" class="form-control" name="NamXuatBan" value="<?php echo $sach['NamXuatBan']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="MoTa" class="form-label">Mô Tả</label>
-                                        <textarea class="form-control" name="MoTa" required><?php echo $sach['MoTa']; ?></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="SoLuong" class="form-label">Số Lượng</label>
-                                        <input type="number" class="form-control" name="SoLuong" value="<?php echo $sach['SoLuong']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="HinhAnh" class="form-label">Hình Ảnh</label>
-                                        <input type="file" class="form-control" name="HinhAnh" accept="image/*">
-                                        <img src="<?php echo htmlspecialchars($sach['HinhAnh']); ?>" alt="<?php echo htmlspecialchars($sach['TenSach']); ?>" class="img-thumbnail mt-2" style="width: 50px; height: auto;">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary" name="edit">Cập Nhật</button>
-                                </form>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table">
+                <tr>
+                    <th>Mã Sách</th>
+                    <th>Tên Sách</th>
+                    <th>Tác Giả</th>
+                    <th>Thể Loại</th>
+                    <th>Năm Xuất Bản</th>
+                    <th>Số Lượng</th>
+                    <th>Hình Ảnh</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($sachList as $sach): ?>
+                    <tr>
+                        <td><?php echo $sach['MaSach']; ?></td>
+                        <td><?php echo $sach['TenSach']; ?></td>
+                        <td><?php echo $sach['TacGia']; ?></td>
+                        <td><?php echo $sach['MaLoai']; ?></td>
+                        <td><?php echo $sach['NamXuatBan']; ?></td>
+                        <td><?php echo $sach['SoLuong']; ?></td>
+                        <td>
+                            <?php
+                            $imagePath = !empty($sach['HinhAnh']) ? $sach['HinhAnh'] : '/TruongHoc/images/default_book.jpg';
+                            ?>
+                            <img src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($sach['TenSach']); ?>" class="img-thumbnail" style="width: 100px; height: auto;">
+                        </td>
+                        <td>
+                            <form method="POST" class="d-inline">
+                                <input type="hidden" name="MaSach" value="<?php echo $sach['MaSach']; ?>">
+                                <button type="submit" class="btn btn-danger btn-sm" name="delete">Xóa</button>
+                            </form>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $sach['MaSach']; ?>">Sửa</button>
+                        </td>
+                    </tr>
+
+                    <!-- Modal Sửa Sách -->
+                    <div class="modal fade" id="editModal<?php echo $sach['MaSach']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Sửa Thông Tin Sách</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="MaSach" value="<?php echo $sach['MaSach']; ?>">
+                                        <input type="hidden" name="HinhAnhHienTai" value="<?php echo $sach['HinhAnh']; ?>">
+                                        <div class="mb-3">
+                                            <label for="TenSach" class="form-label">Tên Sách</label>
+                                            <input type="text" class="form-control" name="TenSach" value="<?php echo $sach['TenSach']; ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="TacGia" class="form-label">Tác Giả</label>
+                                            <input type="text" class="form-control" name="TacGia" value="<?php echo $sach['TacGia']; ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="MaLoai" class="form-label">Thể Loại</label>
+                                            <select class="form-select" name="MaLoai" required>
+                                                <?php foreach ($loaiSachList as $loai): ?>
+                                                    <option value="<?php echo $loai['MaLoai']; ?>" <?php echo $loai['MaLoai'] == $sach['MaLoai'] ? 'selected' : ''; ?>>
+                                                        <?php echo $loai['TenLoai']; ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="NamXuatBan" class="form-label">Năm Xuất Bản</label>
+                                            <input type="number" class="form-control" name="NamXuatBan" value="<?php echo $sach['NamXuatBan']; ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="MoTa" class="form-label">Mô Tả</label>
+                                            <textarea class="form-control" name="MoTa" required><?php echo $sach['MoTa']; ?></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="SoLuong" class="form-label">Số Lượng</label>
+                                            <input type="number" class="form-control" name="SoLuong" value="<?php echo $sach['SoLuong']; ?>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="HinhAnh" class="form-label">Hình Ảnh</label>
+                                            <input type="file" class="form-control" name="HinhAnh" accept="image/*">
+                                            <img src="<?php echo htmlspecialchars($sach['HinhAnh']); ?>" alt="<?php echo htmlspecialchars($sach['TenSach']); ?>" class="img-thumbnail mt-2" style="width: 50px; height: auto;">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" name="edit">Cập Nhật</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
     <!-- Button để mở modal thêm sách -->
     <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Thêm Sách Mới</button>
 
@@ -275,5 +275,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <?php include 'footer.php'; ?>

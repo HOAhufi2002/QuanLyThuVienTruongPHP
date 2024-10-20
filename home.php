@@ -54,11 +54,10 @@ https://templatemo.com/tm-588-ebook-landing
                         <!-- Kiểm tra nếu đã đăng nhập -->
                         <?php if (isset($_SESSION['username'])): ?>
                             <p class="text-white">Xin chào, <?php echo $_SESSION['username']; ?>!</p>
-                            <a href="./index.php" class="btn custom-btn smoothscroll me-3">Đi tới chức năng</a>
+                            <a href="./view_books.php" class="btn custom-btn smoothscroll me-3">Đi tới chức năng</a>
                             <a href="./logout.php" class="btn custom-btn smoothscroll me-3">Đăng Xuất</a>
                         <?php else: ?>
                             <a href="./login.php" class="btn custom-btn smoothscroll me-3">Đăng Nhập</a>
-                            <a href="#section_3" class="link link--kale smoothscroll">Đăng Ký</a>
                         <?php endif; ?>
                     </div>
 
