@@ -33,24 +33,24 @@
                                          WHERE Sach.IsDel = 1");
                 }
 
-                
+
                 while ($row = $stmt->fetch()) {
                     $imagePath = !empty($row['HinhAnh']) ? $row['HinhAnh'] : 'images/default_book.jpg';
-                 
+
                     echo '
-                    <div class="col-md-3 mb-3">
-                        <div class="card" style="width: 18rem; height: 100%; ">
-                        
-                            <img src="' . $imagePath . '" class="card-img-top" alt="' . $row['TenSach'] . '">
-                            <div class="card-body">
+                    <div class="col-md-3 mb-3 d-flex">
+                        <div class="card d-flex flex-column" style="width: 100%; height: 100%;">
+                            <img src="' . $imagePath . '" class="card-img-top" alt="' . $row['TenSach'] . '" style="height: 400px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column justify-content-between">
                                 <h5 class="card-title">' . $row['TenSach'] . '</h5>
                                 <p class="card-text">Tác giả: ' . $row['TacGia'] . '</p>
-                                <p class="card-text">' . substr($row['MoTa'], 0, length:10) . '...</p>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="loadBookDetail(' . $row['MaSach'] . ')">Chi Tiết</button>
+                                <p class="card-text">' . substr($row['MoTa'], 0, 10) . '...</p>
+                                <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="loadBookDetail(' . $row['MaSach'] . ')">Chi Tiết</button>
                             </div>
                         </div>
                     </div>';
                 }
+
                 ?>
             </div>
         </div>
@@ -65,16 +65,16 @@
 </div>
 
 <script>
-function loadBookDetail(maSach) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'popupDetailsach.php?MaSach=' + maSach, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            document.querySelector('#detailModal .modal-content').innerHTML = xhr.responseText;
-        }
-    };
-    xhr.send();
-}
+    function loadBookDetail(maSach) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'popupDetailsach.php?MaSach=' + maSach, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.querySelector('#detailModal .modal-content').innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    }
 </script>
 
 <?php include 'footer.php'; ?>

@@ -65,9 +65,9 @@ if (!isset($_SESSION['user_id'])) {
         <li class="nav-item">
         <a class="nav-link btn btn-primary rounded-pill me-2" href="quanlysach.php">Quản Lý Sách</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link click-scroll" href="quanlysach.php">Quản Lý Tài khoản</a>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link click-scroll" href="quanlyloaisach.php">Quản Lý Loại Sách</a>
         </li>

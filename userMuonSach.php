@@ -35,51 +35,51 @@ $books = $stmt->fetchAll();
 
 <?php include 'header.php'; ?>
 
-    <div class="container mt-5">
-        <h2 class="text-center">Thông Tin Mượn Sách</h2>
+<div class="container mt-5">
+    <h2 class="text-center">Thông Tin Mượn Sách</h2>
 
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>Mã Mượn</th>
-                    <th>Tên Sách</th>
-                    <th>Tác Giả</th>
-                    <th>Ngày Mượn</th>
-                    <th>Số Lượng</th>
-                    <th>Trạng Thái</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (count($books) > 0): ?>
-                    <?php foreach ($books as $book): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($book['MaMuon']); ?></td>
-                            <td><?php echo htmlspecialchars($book['TenSach']); ?></td>
-                            <td><?php echo htmlspecialchars($book['TacGia']); ?></td>
-                            <td><?php echo htmlspecialchars(date('d/m/Y', strtotime($book['NgayMuon']))); ?></td>
-                            <td><?php echo htmlspecialchars($book['SoLuong']); ?></td>
-                            <td><?php echo htmlspecialchars($book['TrangThaiDuyet']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Mã Mượn</th>
+                <th>Tên Sách</th>
+                <th>Tác Giả</th>
+                <th>Ngày Mượn</th>
+                <th>Số Lượng</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (count($books) > 0): ?>
+                <?php foreach ($books as $book): ?>
                     <tr>
-                        <td colspan="6" class="text-center">Không có sách nào được mượn.</td>
+                        <td><?php echo htmlspecialchars($book['MaMuon']); ?></td>
+                        <td><?php echo htmlspecialchars($book['TenSach']); ?></td>
+                        <td><?php echo htmlspecialchars($book['TacGia']); ?></td>
+                        <td><?php echo htmlspecialchars(date('d/m/Y', strtotime($book['NgayMuon']))); ?></td>
+                        <td><?php echo htmlspecialchars($book['SoLuong']); ?></td>
+                        <td><?php echo htmlspecialchars($book['TrangThaiDuyet']); ?></td>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6" class="text-center">Không có sách nào được mượn.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <?php
 
 
 ?>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <?php include 'footer.php'; ?>

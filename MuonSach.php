@@ -62,30 +62,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($books as $book) {
             // Lấy đường dẫn hình ảnh sách (nếu không có, dùng ảnh mặc định)
             $imagePath = !empty($book['HinhAnh']) ? $book['HinhAnh'] : '/images/default_book.jpg';
-            ?>
+        ?>
             <!-- Thiết kế thẻ card Bootstrap cho mỗi sách -->
-            <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                    <img src="<?php echo $imagePath; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($book['TenSach']); ?>" style="height: 300px; object-fit: cover;">
-                    <div class="card-body">
+            <div class="col-md-3 mb-3 d-flex">
+                <div class="card h-100 d-flex flex-column">
+                    <img src="<?php echo $imagePath; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($book['TenSach']); ?>" style="height:400px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column justify-content-between">
                         <h5 class="card-title"><?php echo htmlspecialchars($book['TenSach']); ?></h5>
                         <p class="card-text"><strong>Tác giả:</strong> <?php echo htmlspecialchars($book['TacGia']); ?></p>
                         <p class="card-text"><strong>Năm xuất bản:</strong> <?php echo htmlspecialchars($book['NamXuatBan']); ?></p>
                         <p class="card-text"><?php echo substr(htmlspecialchars($book['MoTa']), 0, 100); ?>...</p>
 
-                        <!-- Kiểm tra trạng thái sách: nếu có sẵn thì hiển thị nút mượn -->
-                        <?php if ($book['SoLuong'] != 0) : ?>
-                            <form action="muonsach.php" method="POST">
-                                <input type="hidden" name="book_id" value="<?php echo $book['MaSach']; ?>">
-                                <button type="submit" class="btn btn-primary">Mượn Sách</button>
-                            </form>
-                        <?php else : ?>
-                            <button class="btn btn-secondary" disabled>Không có sẵn</button>
-                        <?php endif; ?>
+                        <!-- Kiểm tra trạng thái sách và hiển thị nút tương ứng -->
+                        <div class="mt-auto">
+                            <?php if ($book['SoLuong'] != 0) : ?>
+                                <form action="muonsach.php" method="POST">
+                                    <input type="hidden" name="book_id" value="<?php echo $book['MaSach']; ?>">
+                                    <button type="submit" class="btn btn-primary w-100">Mượn Sách</button>
+                                </form>
+                            <?php else : ?>
+                                <button class="btn btn-secondary w-100" disabled>Không có sẵn</button>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
-            <?php
+
+        <?php
         }
         ?>
     </div>
