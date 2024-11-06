@@ -10,10 +10,12 @@
         </div>
 
         <!-- Biểu đồ tròn -->
-        <div class="col-md-6">
-            <canvas id="pieChart"></canvas>
+        <!-- Biểu đồ tròn nhỏ hơn -->
+        <div class="col-md-5">
+            <canvas id="pieChart" style="width: 3px; height: 1030px;"></canvas> <!-- Điều chỉnh kích thước ở đây -->
         </div>
     </div>
+    <br>
 </div>
 
 <?php

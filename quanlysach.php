@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/TruongHoc/images/";
             $fileName = basename($_FILES["HinhAnh"]["name"]);
             $targetFile = $targetDir . $fileName;
-        
+
             // Kiểm tra và di chuyển file ảnh
             if (move_uploaded_file($_FILES["HinhAnh"]["tmp_name"], $targetFile)) {
                 // Đường dẫn URL tương đối, lưu vào database
@@ -120,13 +120,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h2 class="text-center mb-4">Quản Lý Sách</h2>
 
     <!-- Form tìm kiếm sách -->
-    <form style="  border-radius: 50px;" method="POST"  class="col-md-6 offset-md-6 text-end">
-        <div class="input-group">
-            <input type="text" name="search_term" class="form-control" placeholder="Nhập tên sách cần tìm..." value="<?php echo htmlspecialchars($searchTerm); ?>">
-            <button style="  border-radius: 50px;" class="btn btn-primary" type="submit" name="search">Tìm kiếm</button>
+    <div class="row">
+        <form style="  border-radius: 50px;" method="POST" class="col-md-6 text-end">
+            <div class="input-group">
+                <input type="text" name="search_term" class="form-control" placeholder="Nhập tên sách cần tìm..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                <button style="  border-radius: 50px;" class="btn btn-primary" type="submit" name="search">Tìm kiếm</button>
+            </div>
+        </form>
+        <div class="col-md-6 text-end">
+            <button style="width: 150px;" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Thêm Sách Mới</button>
         </div>
-    </form>
-
+    </div>
+    <br>
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead class="table">
@@ -224,7 +229,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <!-- Button để mở modal thêm sách -->
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Thêm Sách Mới</button>
 
     <!-- Modal Thêm Sách -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">

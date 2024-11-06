@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute([$soLuongTra, $maMuon]);
 
     // Cập nhật trạng thái duyệt trong bảng MuonSach thành NULL
-    $stmt = $pdo->prepare("UPDATE MuonSach SET TrangThaiDuyet = Đã trả sách WHERE MaMuon = ?");
+    $stmt = $pdo->prepare("UPDATE MuonSach SET TrangThaiDuyet = 'Đã trả sách' WHERE MaMuon = ?");
     $stmt->execute([$maMuon]);
 
-    header("Location: trat_sach.php?success=1"); // Chuyển hướng đến trang này với thông báo thành công
+    header("Location: viewDanhSachUserMuonTrasach.php?success=1"); // Chuyển hướng đến trang này với thông báo thành công
     exit;
 }
 
@@ -49,9 +49,13 @@ include 'header.php'; // Bao gồm header
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success">Trả sách thành công!</div>
     <?php endif; ?>
-
+    <form style="border-radius: 50px;" class="col-md-6 text-end">
+        <div class="input-group">
+            <input style="border-radius: 50px;" type="text" id="search" class="form-control" placeholder="Tìm kiếm theo tên người mượn">
+        </div>
+    </form>
     <div class="table-responsive">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-striped" id="traSachTable">
             <thead class="table">
                 <tr>
                     <th>Mã Mượn</th>
@@ -112,4 +116,20 @@ include 'header.php'; // Bao gồm header
     </div>
 </div>
 
-<?php include 'footer.php'; // Bao gồm footer ?>
+<!-- Script tìm kiếm -->
+<script>
+    document.getElementById("search").addEventListener("keyup", function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#traSachTable tbody tr");
+
+        rows.forEach(row => {
+            let nameCell = row.querySelector("td:nth-child(2)"); // Lấy ô thứ hai (Họ Tên)
+            if (nameCell) {
+                let name = nameCell.textContent.toLowerCase();
+                row.style.display = name.includes(filter) ? "" : "none";
+            }
+        });
+    });
+</script>
+<?php include 'footer.php'; // Bao gồm footer 
+?>

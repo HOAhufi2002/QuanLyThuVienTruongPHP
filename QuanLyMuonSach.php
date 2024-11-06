@@ -68,12 +68,21 @@ $requests = $stmt->fetchAll();
     <?php elseif (!empty($error)) : ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
+    <form style="border-radius: 50px;" class="col-md-6 text-end">
+        <div class="input-group">
+            <input style="border-radius: 50px;" type="text" id="search" class="form-control" placeholder="Tìm kiếm theo tên người mượn">
+        </div>
+    </form>
 
+
+    <!-- Ô tìm kiếm -->
+
+    <br>
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="table-dark">
+                <table class="table table-bordered" id="requestsTable">
+                    <thead class="table">
                         <tr>
                             <th>Tên Người Mượn</th>
                             <th>Tên Sách</th>
@@ -111,5 +120,21 @@ $requests = $stmt->fetchAll();
         </div>
     </div>
 </div>
+
+<!-- Script tìm kiếm -->
+<script>
+    document.getElementById("search").addEventListener("keyup", function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#requestsTable tbody tr");
+
+        rows.forEach(row => {
+            let nameCell = row.querySelector("td:first-child"); // Lấy ô đầu tiên (Tên Người Mượn)
+            if (nameCell) {
+                let name = nameCell.textContent.toLowerCase();
+                row.style.display = name.includes(filter) ? "" : "none";
+            }
+        });
+    });
+</script>
 
 <?php include 'footer.php'; ?>

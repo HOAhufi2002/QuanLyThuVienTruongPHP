@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,16 +77,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             align-items: center;
             min-height: 100vh;
             background-color: #f0f2f5;
-            background-image: url('https://i.imgur.com/mj2sQmj.jpg'); /* Thay bằng hình nền bạn muốn */
+            background-image: url('https://i.imgur.com/mj2sQmj.jpg');
+            /* Thay bằng hình nền bạn muốn */
             background-size: cover;
             background-position: center;
             overflow: hidden;
         }
+
         .container {
             position: relative;
             width: 400px;
             perspective: 1000px;
         }
+
         .form-box {
             position: relative;
             width: 100%;
@@ -94,9 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: transform 0.8s;
             transform-style: preserve-3d;
         }
+
         .form-box.flipped {
             transform: rotateY(180deg);
         }
+
         .form-container {
             position: absolute;
             width: 100%;
@@ -107,13 +113,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             backface-visibility: hidden;
         }
+
         .form-container h2 {
             margin-bottom: 1.5rem;
             color: #343a40;
         }
+
         .form-container input {
             margin-bottom: 1rem;
         }
+
         .form-container button {
             background-color: #007bff;
             border: none;
@@ -122,38 +131,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: bold;
             width: 100%;
             transition: background-color 0.3s ease;
-            border-radius: 50px; /* Làm nút tròn */
+            border-radius: 50px;
+            /* Làm nút tròn */
         }
+
         .form-container button:hover {
             background-color: #0056b3;
         }
+
         .form-container a {
             display: block;
             margin-top: 1rem;
             color: #007bff;
             text-decoration: none;
         }
+
         .form-container a:hover {
             text-decoration: underline;
         }
+
         .form-back {
             transform: rotateY(180deg);
         }
+
         .toggle-btn {
             cursor: pointer;
             background-color: #007bff;
             color: white;
             border: none;
             padding: 0.5rem 1rem;
-            border-radius: 50px; /* Làm nút tròn */
+            border-radius: 50px;
+            /* Làm nút tròn */
             transition: background-color 0.3s ease;
             margin-top: 1rem;
         }
+
         .toggle-btn:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="form-box" id="formBox">
@@ -165,6 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="password" class="form-control" id="password" name="password" placeholder="Mật Khẩu" required>
                     <button type="submit" name="login">Đăng Nhập</button>
                 </form>
+                <hr />
                 <p onclick="toggleForm()">Chuyển sang Đăng Ký</p>
             </div>
 
@@ -179,6 +198,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="password" class="form-control" id="reg-password" name="password" placeholder="Mật Khẩu" required>
                     <button type="submit" name="register">Đăng Ký</button>
                 </form>
+                <hr />
+
                 <p class="hover" onclick="toggleForm()">Chuyển sang Đăng Nhập</p>
             </div>
         </div>
@@ -194,4 +215,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
 </body>
+
 </html>
